@@ -4,8 +4,8 @@ WORKDIR /go/src/fullcycle
 
 COPY . .
 
-RUN GOOS=linux go build 
-
+RUN GOOS=linux go build -o fullcycle
+RUN ls -la
 EXPOSE 9091
 
 ENTRYPOINT [ "./fullcycle" ]
