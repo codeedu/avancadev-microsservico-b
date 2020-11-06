@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: microsservicob
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: microsservicob
+    template:
+        metadata:
+            labels:
+                app: microsservicob
+        spec:
+            containers:
+                - name: microsservicob
+                  image: wesleywillians/microsservico-avancadev-b:latest
+                  ports:
+                    - containerPort: 9091
+
+                  volumeMounts:
+                  - name: microsservicob-conf
+                    subPath: .env
+                    mountPath: /go/src/fullcycle/.env
+
+                  env:
+                    - name: RABBITMQ_DEFAULT_USER
+                      valueFrom:
+                        secretKeyRef:
+                            name: microsservicob-secret
+                            key: RABBITMQ_DEFAULT_USER
+
+                    - name: RABBITMQ_DEFAULT_PASS
+                      valueFrom:
+                        secretKeyRef:
+                            name: microsservicob-secret
+                            key: RABBITMQ_DEFAULT_PASS
+
+            volumes:
+            - name: microsservicob-conf
+              configMap:
+                name: microsservicob-conf
+                items:
+                    - key: env
+                      path: .env
