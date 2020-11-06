@@ -24,7 +24,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	resultCoupon := makeHttpCall("http://localhost:9092", coupon)
 
-	result := Result{Status: "declined----"}
+	result := Result{Status: "declined"}
 
 	if ccNumber == "1" {
 		result.Status = "approved"
